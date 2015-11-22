@@ -26,7 +26,7 @@ public class TopicJSONParser {
                 JSONObject obj = ar.getJSONObject(j);
                 Topic topic = new Topic();
                 topic.setId(Integer.parseInt(obj.getString("id").substring(1,obj.getString("id").length()-1)));
-                topic.setName(obj.getString("topic").substring(2,obj.getString("topic").length()-2));
+                topic.setName(obj.getString("topic").substring(2,obj.getString("topic").length()-2).replace("\\/", "/"));
                 if(!obj.isNull("id")) {
                     libraryEntryList.add(topic);
                     j++;

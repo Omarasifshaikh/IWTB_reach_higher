@@ -47,8 +47,8 @@ public class SearchTopics extends ActivityBase {
         topicList = TopicJSONParser.parseFile(raw_jason);
         Log.d(TAG, "Done with parsing...");
         Log.d(TAG,topicList.get(1).toString());
-        Log.d(TAG,topicList.get(2).toString());
-        Log.d(TAG,topicList.get(0).toString());
+        Log.d(TAG,topicList.get(12).toString());
+        Log.d(TAG,topicList.get(13).toString());
         Log.d(TAG,topicList.get(3830).toString());
 
 
