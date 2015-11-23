@@ -21,6 +21,7 @@ public class MeetupListItemAdapter extends RecyclerView.Adapter<MeetupListItemAd
     }
 
     private ArrayList<String> itemList;
+    private ArrayList<String> listOfUrl;
     private ListItemClickListener listener;
     private Context parentContext;
     private int expandedPosition = -1;
@@ -57,10 +58,11 @@ public class MeetupListItemAdapter extends RecyclerView.Adapter<MeetupListItemAd
         }
     }
 
-    public MeetupListItemAdapter(ArrayList<String> itemList, ListItemClickListener listener, Context parent) {
+    public MeetupListItemAdapter(ArrayList<String> itemList, ArrayList<String> listOfUrl,ListItemClickListener listener, Context parent) {
         this.itemList = itemList;
         this.listener = listener;
         this.parentContext = parent;
+        this.listOfUrl = listOfUrl;
 
     }
 
@@ -84,10 +86,9 @@ public class MeetupListItemAdapter extends RecyclerView.Adapter<MeetupListItemAd
          */
         holder.itemNameView.setText(itemList.get(position));
 
-        Log.d("ExpandPos: " + String.valueOf(expandedPosition) +
-                " position: " + String.valueOf(position), "OnBdView");
         if(expandedPosition == position){
             holder.expandedLayout.setVisibility(View.VISIBLE);
+            holder.expandedView.setText(listOfUrl.get(position));
         } else {
             holder.expandedLayout.setVisibility(View.GONE);
         }

@@ -17,14 +17,19 @@ import net.smartam.leeloo.client.OAuthClient;
 import net.smartam.leeloo.client.URLConnectionClient;
 import net.smartam.leeloo.client.request.OAuthClientRequest;
 import net.smartam.leeloo.client.response.OAuthAccessTokenResponse;
+import net.smartam.leeloo.client.response.OAuthClientResponseFactory;
 import net.smartam.leeloo.common.exception.OAuthProblemException;
 import net.smartam.leeloo.common.exception.OAuthSystemException;
+import net.smartam.leeloo.common.message.OAuthMessage;
 import net.smartam.leeloo.common.message.types.GrantType;
 
 import tech.oshaikh.appstart.common.ActivityBase;
 
 // leeloo oAuth lib https://bitbucket.org/smartproject/oauth-2.0/wiki/Home
-
+/**
+ *
+ * This is a great example of how to do Oauth protocol
+ */
 /**
  * Created with IntelliJ IDEA.
  * Author: Adrian Maurer
@@ -133,6 +138,11 @@ public class MeetupAuthActivity extends ActivityBase {
                 Log.d(TAG, response.getAccessToken());
                 Log.d(TAG, response.getExpiresIn());
                 Log.d(TAG, response.getRefreshToken());
+
+
+                //OAuthClientRequest.OAuthRequestBuilder builder;
+                //builder.buildHeaderMessage();
+
 
             } catch (OAuthSystemException e) {
                 Log.e(TAG, "OAuth System Exception - Couldn't get access token: " + e.toString());

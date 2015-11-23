@@ -3,7 +3,6 @@ package tech.oshaikh.appstart;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -17,9 +16,11 @@ import tech.oshaikh.appstart.common.ActivityBase;
  * Created by moseslee on 11/22/15.
  */
 public class MeetupListActivity extends ActivityBase
-        implements MeetupListItemAdapter.ListItemClickListener {
+        implements MeetupListItemAdapter.ListItemClickListener, MeetupDataFetcher.QueryDataInterface {
     private ArrayList<String> meetupList;
+    private ArrayList<String> urlList;
     private RecyclerView.Adapter listAdapter;
+
 
     private Intent _intent;
     private Context _context;
@@ -30,6 +31,7 @@ public class MeetupListActivity extends ActivityBase
         _intent = getIntent();
         _context = getApplicationContext();
         meetupList = new ArrayList<>();
+        urlList = new ArrayList<>();
 
         //ALWAYS SET CONTENT VIEW
         setContentView(R.layout.meetup_layout);
@@ -38,11 +40,15 @@ public class MeetupListActivity extends ActivityBase
         //Sets the view vertically
         listView.setLayoutManager(new LinearLayoutManager(this));
 
-        listAdapter = new MeetupListItemAdapter(meetupList, this, _context);
+        listAdapter = new MeetupListItemAdapter(meetupList, urlList,this, _context);
         listView.setAdapter(listAdapter);
 
         //Just for now.
-        addFakeItems();
+        //addFakeItems();
+
+        //Querying meet up
+        MeetupDataFetcher md = new MeetupDataFetcher(meetupList, urlList,this);
+        md.execute();
     }
 
     //For the list
@@ -66,17 +72,9 @@ public class MeetupListActivity extends ActivityBase
         finishActivity();
     }
 
-    //This is just to add fake items to the list
-    private void addFakeItems(){
-        meetupList.add("Hackathon");
-        meetupList.add("Computer");
-        meetupList.add("Drink and Code");
-        meetupList.add("Code and Code");
-        meetupList.add("Code and Drink");
-        meetupList.add("Biology");
-        meetupList.add("Golf and Meet");
-        meetupList.add("Best and Meet");
-        meetupList.add("Omar's Astronomy");
-        meetupList.add("Jason's HPC");
+
+    //For the meetup interface
+    public void finishedParsingResults(){
+        listAdapter.notifyDataSetChanged();
     }
 }
