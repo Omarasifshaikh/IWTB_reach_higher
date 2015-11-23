@@ -7,6 +7,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
+import android.content.Intent;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -77,6 +78,15 @@ public class SearchTopics extends ActivityBase {
                 mAutocompleteView.setText("");
             }
         });
+
+        Button meetupButton = (Button) findViewById(R.id.meetup_button);
+        meetupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                launchMeetupList(v);
+            }
+        });
+
     }
 
     public String loadJSONFromAsset() {
@@ -102,6 +112,12 @@ public class SearchTopics extends ActivityBase {
         }
         return json;
 
+    }
+
+    //Launch the activity to
+    public void launchMeetupList(View v){
+        Intent intent = new Intent(this, MeetupListActivity.class);
+        startActivityForResult(intent, 0);
     }
 
 

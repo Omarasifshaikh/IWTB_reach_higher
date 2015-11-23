@@ -34,5 +34,18 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/clear_text" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="194dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Launch Meetup"
+                android:id="@+id/meetup_button"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>
