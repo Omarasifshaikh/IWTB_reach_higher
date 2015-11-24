@@ -1,6 +1,5 @@
 package tech.oshaikh.appstart;
 
-import android.util.Log;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,7 +112,6 @@ public class MeetupListItemAdapter extends RecyclerView.Adapter<MeetupListItemAd
         }
 
         notifyItemChanged(expandedPosition);
-
     }
 
 }

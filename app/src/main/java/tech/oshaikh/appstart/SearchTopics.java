@@ -63,7 +63,7 @@ public class SearchTopics extends ActivityBase {
         }
 
         //create a String adapter to suggest the auto complete form
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_dropdown_item_1line, arrayTopicNames);
 
         mAutocompleteView.setAdapter(adapter);
@@ -79,6 +79,7 @@ public class SearchTopics extends ActivityBase {
             }
         });
 
+        //Launches the meetup button that does it
         Button meetupButton = (Button) findViewById(R.id.meetup_button);
         meetupButton.setOnClickListener(new View.OnClickListener() {
             @Override

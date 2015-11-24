@@ -12,22 +12,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import net.smartam.leeloo.client.OAuthClient;
-import net.smartam.leeloo.client.URLConnectionClient;
-import net.smartam.leeloo.client.request.OAuthClientRequest;
-import net.smartam.leeloo.client.response.OAuthAccessTokenResponse;
-import net.smartam.leeloo.common.exception.OAuthProblemException;
-import net.smartam.leeloo.common.exception.OAuthSystemException;
-import net.smartam.leeloo.common.message.types.GrantType;
+//import net.smartam.leeloo.client.OAuthClient;
+//import net.smartam.leeloo.client.URLConnectionClient;
+//import net.smartam.leeloo.client.request.OAuthClientRequest;
+//import net.smartam.leeloo.client.response.OAuthAccessTokenResponse;
+//import net.smartam.leeloo.common.exception.OAuthProblemException;
+//import net.smartam.leeloo.common.exception.OAuthSystemException;
+//import net.smartam.leeloo.common.message.types.GrantType;
 /**
  * Created by moseslee on 11/23/15.
  */
 public class MeetupDataFetcher extends AsyncTask <String, Integer, JSONObject> {
 
-    int responseCode = 0;
-    ArrayList<String> listOfNames;
-    ArrayList<String> listOfUrl;
-    QueryDataInterface ref;
+    private int responseCode = 0;
+    private ArrayList<String> listOfNames;
+    private ArrayList<String> listOfUrl;
+    private QueryDataInterface ref;
+    private String category;
 
 //    public static final String AUTH_URL = "https://secure.meetup.com/oauth2/authorize";
 //    public static final String TOKEN_URL = "https://secure.meetup.com/oauth2/access";
@@ -35,7 +36,16 @@ public class MeetupDataFetcher extends AsyncTask <String, Integer, JSONObject> {
 //    public static final String CONSUMER_KEY = "1c0gijl0b0r2e2rn7o2tdjm6oc";
 //    public static final String CONSUMER_SECRET = "rl7sqql9mrdu9jbild3ebk3a36";
 
-    MeetupDataFetcher(ArrayList<String> listOfNames, ArrayList<String> listOfUrl, QueryDataInterface ref) {
+
+    /*This is a temporary place holder due to the fact that I am not familiar with
+     meetup api's. I just want to see if I can submit a request, get a JSON, and parse
+     the JSON and populate the list. THIS WILL CHANGE IN THE FUTURE
+     */
+    private String requestURL = "https://api.meetup.com/topics?key=575e2b7f347f591d39574a3f593c&search=";
+    //"https://api.meetup.com/find/groups?key=575e2b7f347f591d39574a3f593c&zip=11211&radius=1&category=25&order=members";
+
+    MeetupDataFetcher(ArrayList<String> listOfNames, ArrayList<String> listOfUrl,
+                      QueryDataInterface ref, String category) {
         /*
         USING THE OAUTH PROTOCOL SHOULD BE THE PREFERRED WAY
         However at the moment we will just use a single user API key
@@ -53,13 +63,8 @@ public class MeetupDataFetcher extends AsyncTask <String, Integer, JSONObject> {
         this.listOfNames = listOfNames;
         this.listOfUrl = listOfUrl;
         this.ref = ref;
+        this.category = category;
     }
-    /*This is a temporary place holder due to the fact that I am not familiar with
-     meetup api's. I just want to see if I can submit a request, get a JSON, and parse
-     the JSON and populate the list. THIS WILL CHANGE IN THE FUTURE
-     */
-    private String requestURL = "https://api.meetup.com/topics?key=575e2b7f347f591d39574a3f593c&search=tech";
-            //"https://api.meetup.com/find/groups?key=575e2b7f347f591d39574a3f593c&zip=11211&radius=1&category=25&order=members";
 
     @Override
     protected JSONObject doInBackground(String... params) {
@@ -68,7 +73,7 @@ public class MeetupDataFetcher extends AsyncTask <String, Integer, JSONObject> {
         JSONObject results = null;
 
         try {
-            url = new URL(requestURL);
+            url = new URL(requestURL + category);
             urlConnection = (HttpURLConnection) url.openConnection();
 
             String recievingText = "";
@@ -95,6 +100,11 @@ public class MeetupDataFetcher extends AsyncTask <String, Integer, JSONObject> {
         return results;
     }
 
+    protected void onProgressUpdate(Integer... progress) {
+        ref.updateProgressBar(progress[0]);
+    }
+
+
     //Parse the results
     protected void onPostExecute(JSONObject result) {
         Log.d("Got results", "postExec");
@@ -114,6 +124,7 @@ public class MeetupDataFetcher extends AsyncTask <String, Integer, JSONObject> {
 
     //Internal interface for classes that need to be notified of the data set
     interface QueryDataInterface{
-        public void finishedParsingResults();
+        void finishedParsingResults();
+        void updateProgressBar(int p);
     }
 }

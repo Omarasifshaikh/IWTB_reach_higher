@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
@@ -20,7 +23,9 @@ public class MeetupListActivity extends ActivityBase
     private ArrayList<String> meetupList;
     private ArrayList<String> urlList;
     private RecyclerView.Adapter listAdapter;
-
+    private AutoCompleteTextView categoryText;
+    private ProgressBar searchProgress;
+    private String category;
 
     private Intent _intent;
     private Context _context;
@@ -40,15 +45,20 @@ public class MeetupListActivity extends ActivityBase
         //Sets the view vertically
         listView.setLayoutManager(new LinearLayoutManager(this));
 
+        categoryText = (AutoCompleteTextView) findViewById(R.id.category_text);
+        categoryText.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                populateMenuList();
+                                            }
+                                        }
+        );
+
+        searchProgress = (ProgressBar) findViewById(R.id.searchProgress);
+        searchProgress.setVisibility(View.GONE);
+
         listAdapter = new MeetupListItemAdapter(meetupList, urlList,this, _context);
         listView.setAdapter(listAdapter);
-
-        //Just for now.
-        //addFakeItems();
-
-        //Querying meet up
-        MeetupDataFetcher md = new MeetupDataFetcher(meetupList, urlList,this);
-        md.execute();
     }
 
     //For the list
@@ -72,9 +82,23 @@ public class MeetupListActivity extends ActivityBase
         finishActivity();
     }
 
+    public void populateMenuList() {
+        //Querying meet up
+        searchProgress.setVisibility(View.VISIBLE);
+        category = categoryText.getText().toString();
+        meetupList.clear();
+        urlList.clear();
+        MeetupDataFetcher md = new MeetupDataFetcher(meetupList, urlList, this, category);
+        md.execute();
+    }
 
     //For the meetup interface
     public void finishedParsingResults(){
+        searchProgress.setVisibility(View.GONE);
         listAdapter.notifyDataSetChanged();
+    }
+
+    public void updateProgressBar(int p){
+        searchProgress.setProgress(p);
     }
 }
