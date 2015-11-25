@@ -2,12 +2,12 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/meetupLayout">
+    android:id="@+id/learnLayout">
 
     <AutoCompleteTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/category_text"
+        android:id="@+id/learn_category_text"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_gravity="center_horizontal"
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/margin_huge"
-        android:id="@+id/meetUpListView"
+        android:id="@+id/learnListView"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true" />
 
@@ -26,8 +26,8 @@
         style="?android:attr/progressBarStyleSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/searchProgress"
-        android:layout_below="@+id/category_text"
+        android:id="@+id/learnSearchProgress"
+        android:layout_below="@+id/learn_category_text"
         android:layout_centerHorizontal="true" />
 
 

@@ -88,6 +88,15 @@ public class SearchTopics extends ActivityBase {
             }
         });
 
+        //Launches the learn button that does it
+        Button learnButton = (Button) findViewById(R.id.learn_button);
+        learnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                launchLearn(v);
+            }
+        });
+
     }
 
     public String loadJSONFromAsset() {
@@ -121,5 +130,9 @@ public class SearchTopics extends ActivityBase {
         startActivityForResult(intent, 0);
     }
 
-
+    //Launch the activity to
+    public void launchLearn(View v){
+        Intent intent = new Intent(this, LearnActivity.class);
+        startActivityForResult(intent, 0);
+    }
 }
