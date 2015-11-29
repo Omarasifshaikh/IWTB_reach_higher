@@ -2,19 +2,13 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/intro_message"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <AutoCompleteTextView
-        android:id="@+id/autocomplete_places"
+        android:id="@+id/autocomplete_interests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:hint="@string/autocomplete_hint"
+        android:hint="@string/autocomplete_interests_hint"
         android:singleLine="true" />
 
     <Button
@@ -23,4 +17,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="@string/clear_text" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autocomplete_places"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="@string/autocomplete_places_hint"
+        android:singleLine="true" />
 </LinearLayout>

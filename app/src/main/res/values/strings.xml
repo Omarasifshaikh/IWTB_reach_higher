@@ -38,6 +38,8 @@
     <string name="fragment_learn">Fragment Learn</string>
     <string name="fragment_information">Fragment Information</string>
 
+    <string name="autocomplete_interests_hint">What do you like?</string>
+    <string name="autocomplete_places_hint">Where do you live?</string>
     <string name="ok">Ok</string>
     <string name="cancel">Cancel</string>
 </resources>
