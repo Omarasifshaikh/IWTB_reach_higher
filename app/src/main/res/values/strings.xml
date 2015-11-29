@@ -1,5 +1,14 @@
 <resources>
-    <string name="app_name">App start</string>
+    <string name="app_name">Career App</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Nothing</string>
+
+
+
+
     <string name="intro_message">
         <![CDATA[
 
@@ -15,4 +24,17 @@
     <string name="default_search_hint">Enter a category</string>
     <string name="meetup_button_text">Launch Meetup</string>
     <string name="learn_button_text">Launch Learn</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="action_example">Example action</string>
+
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_do">Fragment Do</string>
+    <string name="fragment_learn">Fragment Learn</string>
+    <string name="fragment_information">Fragment Information</string>
 </resources>
