@@ -14,6 +14,9 @@ import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 
+import tech.oshaikh.ojsknavigationdrawer.DataFetcherPackage.LearnDataFetcher;
+import tech.oshaikh.ojsknavigationdrawer.ListPackage.LearnListItemAdapter;
+
 
 public class FragmentLearn extends Fragment implements LearnListItemAdapter.ListItemClickListener , LearnDataFetcher.QueryDataInterface {
 
@@ -22,7 +25,8 @@ public class FragmentLearn extends Fragment implements LearnListItemAdapter.List
     private RecyclerView.Adapter listAdapter;
     private AutoCompleteTextView categoryText;
     private ProgressBar searchProgress;
-    private String category;
+    StandardUtilities utilRef;
+    private String category = "";
 
     private Context _context;
 
@@ -69,12 +73,19 @@ public class FragmentLearn extends Fragment implements LearnListItemAdapter.List
 
         listAdapter = new LearnListItemAdapter(tutorialList, urlList, this, _context);
         listView.setAdapter(listAdapter);
+        utilRef = new StandardUtilities();
+        utilRef.showSoftKeyboard(this.getActivity());
     }
 
     public void populateMenuList() {
         //Querying
-        searchProgress.setVisibility(View.VISIBLE);
+        String prevSearch = category;
         category = categoryText.getText().toString();
+
+        if(category.length() == 0 || prevSearch.equals(category))
+            return;
+
+        searchProgress.setVisibility(View.VISIBLE);
         tutorialList.clear();
         urlList.clear();
         LearnDataFetcher md = new LearnDataFetcher(tutorialList, urlList, this, category);
@@ -88,8 +99,10 @@ public class FragmentLearn extends Fragment implements LearnListItemAdapter.List
 
     @Override
     public void finishedParsingResults() {
+
         searchProgress.setVisibility(View.GONE);
         listAdapter.notifyDataSetChanged();
+        utilRef.hideSoftKeyboard(this.getActivity());
     }
 
     @Override

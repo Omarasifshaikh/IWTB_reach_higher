@@ -1,6 +1,5 @@
-package tech.oshaikh.ojsknavigationdrawer;
+package tech.oshaikh.ojsknavigationdrawer.DataFetcherPackage;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -23,12 +22,11 @@ import java.util.ArrayList;
 /**
  * Created by moseslee on 11/23/15.
  */
-public class MeetupDataFetcher extends AsyncTask <String, Integer, JSONObject> {
+public class MeetupDataFetcher extends DataFetcher {
 
     private int responseCode = 0;
     private ArrayList<String> listOfNames;
     private ArrayList<String> listOfUrl;
-    private QueryDataInterface ref;
     private String category;
 
 //    public static final String AUTH_URL = "https://secure.meetup.com/oauth2/authorize";
@@ -45,7 +43,7 @@ public class MeetupDataFetcher extends AsyncTask <String, Integer, JSONObject> {
     private String requestURL = "https://api.meetup.com/topics?key=575e2b7f347f591d39574a3f593c&search=";
     //"https://api.meetup.com/find/groups?key=575e2b7f347f591d39574a3f593c&zip=11211&radius=1&category=25&order=members";
 
-    MeetupDataFetcher(ArrayList<String> listOfNames, ArrayList<String> listOfUrl,
+    public MeetupDataFetcher(ArrayList<String> listOfNames, ArrayList<String> listOfUrl,
                       QueryDataInterface ref, String category) {
         /*
         USING THE OAUTH PROTOCOL SHOULD BE THE PREFERRED WAY
@@ -105,7 +103,6 @@ public class MeetupDataFetcher extends AsyncTask <String, Integer, JSONObject> {
         ref.updateProgressBar(progress[0]);
     }
 
-
     //Parse the results
     protected void onPostExecute(JSONObject result) {
         Log.d("Got results", "postExec");
@@ -121,11 +118,5 @@ public class MeetupDataFetcher extends AsyncTask <String, Integer, JSONObject> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    //Internal interface for classes that need to be notified of the data set
-    interface QueryDataInterface{
-        void finishedParsingResults();
-        void updateProgressBar(int p);
     }
 }

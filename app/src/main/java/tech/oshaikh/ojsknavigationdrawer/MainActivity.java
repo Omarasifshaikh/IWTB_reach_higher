@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // Begin the transaction
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             // Replace the contents of the container with the new fragment
-            ft.replace(R.id.frame_container, new FragmentDo());
+            ft.replace(R.id.frame_container, new FragmentFindGroups());
             // or ft.add(R.id.your_placeholder, new FooFragment());
             // Complete the changes added above
             ft.commit();
@@ -122,6 +122,4 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 }

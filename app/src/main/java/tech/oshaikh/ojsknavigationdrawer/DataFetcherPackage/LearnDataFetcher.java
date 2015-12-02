@@ -1,6 +1,5 @@
-package tech.oshaikh.ojsknavigationdrawer;
+package tech.oshaikh.ojsknavigationdrawer.DataFetcherPackage;
 
-import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -15,17 +14,16 @@ import java.util.ArrayList;
 /**
  * Created by Jason Burmark on 11/24/15.
  */
-public class LearnDataFetcher extends AsyncTask <String, Integer, JSONObject> {
+public class LearnDataFetcher extends DataFetcher {
 
     private int responseCode = 0;
     private ArrayList<String> listOfNames;
     private ArrayList<String> listOfUrl;
-    private QueryDataInterface ref;
     private String category;
 
     private String requestURL = "https://api.coursera.org/api/courses.v1?q=search&query=";
 
-    LearnDataFetcher(ArrayList<String> listOfNames, ArrayList<String> listOfUrl,
+    public LearnDataFetcher(ArrayList<String> listOfNames, ArrayList<String> listOfUrl,
                      QueryDataInterface ref, String category) {
         this.listOfNames = listOfNames;
         this.listOfUrl = listOfUrl;
@@ -95,11 +93,5 @@ public class LearnDataFetcher extends AsyncTask <String, Integer, JSONObject> {
         } finally {
             ref.finishedParsingResults();
         }
-    }
-
-    //Internal interface for classes that need to be notified of the data set
-    interface QueryDataInterface{
-        void finishedParsingResults();
-        void updateProgressBar(int p);
     }
 }

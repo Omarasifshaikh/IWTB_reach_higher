@@ -16,10 +16,13 @@ import android.app.Activity;
 
 import java.util.ArrayList;
 
+import tech.oshaikh.ojsknavigationdrawer.DataFetcherPackage.*;
+import tech.oshaikh.ojsknavigationdrawer.ListPackage.ListAdapter;
+import tech.oshaikh.ojsknavigationdrawer.ListPackage.MeetupListItemAdapter;
 
-public class FragmentDo extends Fragment
-        implements MeetupListItemAdapter.ListItemClickListener,
-                MeetupDataFetcher.QueryDataInterface {
+public class FragmentFindGroups extends Fragment
+        implements ListAdapter.ListItemClickListener,
+                DataFetcher.QueryDataInterface {
 
 
     private ArrayList<String> meetupList;
@@ -28,11 +31,11 @@ public class FragmentDo extends Fragment
     private AutoCompleteTextView categoryText;
     private ProgressBar searchProgress;
     private String category = "";
-
+    private StandardUtilities utilRef;
     private Context _context;
 
 
-    public FragmentDo() {
+    public FragmentFindGroups() {
         // empty public constructor
     }
 
@@ -76,7 +79,8 @@ public class FragmentDo extends Fragment
 
         listAdapter = new MeetupListItemAdapter(meetupList, urlList,this, _context);
         listView.setAdapter(listAdapter);
-        showSoftKeyboard(this.getActivity());
+        utilRef = new StandardUtilities();
+        utilRef.showSoftKeyboard(this.getActivity());
 
     }
 
@@ -106,21 +110,9 @@ public class FragmentDo extends Fragment
     public void finishedParsingResults() {
         searchProgress.setVisibility(View.GONE);
         listAdapter.notifyDataSetChanged();
-        hideSoftKeyboard(this.getActivity());
+        utilRef.hideSoftKeyboard(this.getActivity());
     }
 
     @Override
     public void updateProgressBar(int p) { searchProgress.setProgress(p); }
-
-    //Hide the keyboard when necessary
-    public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
-    }
-
-    //Show the keyboard when neccessary
-    public static void showSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.showSoftInput(activity.getCurrentFocus(), 0);
-    }
 }

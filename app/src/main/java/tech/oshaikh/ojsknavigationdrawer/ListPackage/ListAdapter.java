@@ -1,4 +1,4 @@
-package tech.oshaikh.ojsknavigationdrawer;
+package tech.oshaikh.ojsknavigationdrawer.ListPackage;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,20 +10,22 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Jason Burmark on 11/24/15.
- */
-public class LearnListItemAdapter extends RecyclerView.Adapter<LearnListItemAdapter.ViewHolder> {
+import tech.oshaikh.ojsknavigationdrawer.R;
 
-    interface ListItemClickListener {
+/**
+ * Created by moseslee on 12/1/15.
+ */
+public abstract class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder> {
+
+    public interface ListItemClickListener {
         void onItemClicked(int position);
     }
 
-    private ArrayList<String> itemList;
-    private ArrayList<String> listOfUrl;
-    private ListItemClickListener listener;
-    private Context parentContext;
-    private int expandedPosition = -1;
+    protected ListItemClickListener listener;
+    protected ArrayList<String> itemList;
+    protected ArrayList<String> listOfUrl;
+    protected Context parentContext;
+    protected int expandedPosition = -1;
 
     //Extend this abstract class
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -57,20 +59,12 @@ public class LearnListItemAdapter extends RecyclerView.Adapter<LearnListItemAdap
         }
     }
 
-    public LearnListItemAdapter(ArrayList<String> itemList, ArrayList<String> listOfUrl, ListItemClickListener listener, Context parent) {
-        this.itemList = itemList;
-        this.listener = listener;
-        this.parentContext = parent;
-        this.listOfUrl = listOfUrl;
-    }
-
-    @Override
-    public LearnListItemAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         /*
          * Create a new ViewHolder by inflating a layout-resource.
          */
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.learn_cardview, parent, false);
+                .inflate(R.layout.meetup_cardview, parent, false);
         return new ViewHolder(v);
     }
 
@@ -97,8 +91,7 @@ public class LearnListItemAdapter extends RecyclerView.Adapter<LearnListItemAdap
         return itemList.size();
     }
 
-    private void expandCard(int pos){
-
+    protected void expandCard(int pos){
         if (expandedPosition >= 0) {
             int prev = expandedPosition;
             notifyItemChanged(prev);
@@ -112,5 +105,4 @@ public class LearnListItemAdapter extends RecyclerView.Adapter<LearnListItemAdap
 
         notifyItemChanged(expandedPosition);
     }
-
 }
