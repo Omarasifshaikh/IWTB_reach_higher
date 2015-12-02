@@ -11,11 +11,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
+import android.view.inputmethod.InputMethodManager;
+import android.app.Activity;
 
 import java.util.ArrayList;
 
 
-public class FragmentDo extends Fragment implements MeetupListItemAdapter.ListItemClickListener, MeetupDataFetcher.QueryDataInterface {
+public class FragmentDo extends Fragment
+        implements MeetupListItemAdapter.ListItemClickListener,
+                MeetupDataFetcher.QueryDataInterface {
 
 
     private ArrayList<String> meetupList;
@@ -23,7 +27,7 @@ public class FragmentDo extends Fragment implements MeetupListItemAdapter.ListIt
     private RecyclerView.Adapter listAdapter;
     private AutoCompleteTextView categoryText;
     private ProgressBar searchProgress;
-    private String category;
+    private String category = "";
 
     private Context _context;
 
@@ -72,13 +76,20 @@ public class FragmentDo extends Fragment implements MeetupListItemAdapter.ListIt
 
         listAdapter = new MeetupListItemAdapter(meetupList, urlList,this, _context);
         listView.setAdapter(listAdapter);
+        showSoftKeyboard(this.getActivity());
 
     }
 
     public void populateMenuList() {
         //Querying meet up
-        searchProgress.setVisibility(View.VISIBLE);
+        String prevString = category;
         category = categoryText.getText().toString();
+
+        //If its nothing or the same topic, dont do anything
+        if (category.length() == 0 || prevString.equals(category))
+            return;
+
+        searchProgress.setVisibility(View.VISIBLE);
         meetupList.clear();
         urlList.clear();
         MeetupDataFetcher md = new MeetupDataFetcher(meetupList, urlList, this, category);
@@ -90,12 +101,26 @@ public class FragmentDo extends Fragment implements MeetupListItemAdapter.ListIt
         //CardView card = new CardView();
     }
 
+    //For the interface after aync task
     @Override
     public void finishedParsingResults() {
         searchProgress.setVisibility(View.GONE);
         listAdapter.notifyDataSetChanged();
+        hideSoftKeyboard(this.getActivity());
     }
 
     @Override
     public void updateProgressBar(int p) { searchProgress.setProgress(p); }
+
+    //Hide the keyboard when necessary
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    //Show the keyboard when neccessary
+    public static void showSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.showSoftInput(activity.getCurrentFocus(), 0);
+    }
 }

@@ -62,7 +62,6 @@ public class MeetupListItemAdapter extends RecyclerView.Adapter<MeetupListItemAd
         this.listener = listener;
         this.parentContext = parent;
         this.listOfUrl = listOfUrl;
-
     }
 
     @Override
