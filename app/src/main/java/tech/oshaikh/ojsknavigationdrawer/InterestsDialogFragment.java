@@ -1,5 +1,6 @@
 package tech.oshaikh.ojsknavigationdrawer;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -8,23 +9,33 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.tokenautocomplete.FilteredArrayAdapter;
+import com.tokenautocomplete.TokenCompleteTextView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import me.gujun.android.taggroup.TagGroup;
 import tech.oshaikh.ojsknavigationdrawer.model.Topic;
 
 /**
  * Created by omar on 11/29/15.
  */
-public class InterestsDialogFragment extends DialogFragment {
+public class InterestsDialogFragment extends DialogFragment implements TokenCompleteTextView.TokenListener {
     private List<Topic> topicList;
     private static final String TAG = "Interests Dialog";
     private AutoCompleteTextView mAutocompleteView;
+
+    ContactsCompletionView completionView;
+    Person[] people;
+    ArrayAdapter<Person> adapter;
 
     static InterestsDialogFragment newInstance() {
         return new InterestsDialogFragment();
@@ -48,6 +59,56 @@ public class InterestsDialogFragment extends DialogFragment {
 
         mAutocompleteView = (AutoCompleteTextView)
                 view.findViewById(R.id.autocomplete_interests);
+
+        TagGroup mTagGroup = (TagGroup) view.findViewById(R.id.tag_group);
+        mTagGroup.setTags(new String[]{"Tag1", "Tag2", "Tag3"});
+
+
+        people = new Person[]{
+                new Person("Marshall Weir", "marshall@example.com"),
+                new Person("Margaret Smith", "margaret@example.com"),
+                new Person("Max Jordan", "max@example.com"),
+                new Person("Meg Peterson", "meg@example.com"),
+                new Person("Amanda Johnson", "amanda@example.com"),
+                new Person("Terry Anderson", "terry@example.com")
+        };
+        adapter = new FilteredArrayAdapter<Person>(this.getContext(), R.layout.person_layout, people) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
+
+                    LayoutInflater l = (LayoutInflater)getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+                    convertView = l.inflate(R.layout.person_layout, parent, false);
+                }
+
+                Person p = getItem(position);
+                ((TextView)convertView.findViewById(R.id.name)).setText(p.getName());
+                ((TextView)convertView.findViewById(R.id.email)).setText(p.getEmail());
+
+                return convertView;
+            }
+
+            @Override
+            protected boolean keepObject(Person person, String mask) {
+                mask = mask.toLowerCase();
+                return person.getName().toLowerCase().startsWith(mask) || person.getEmail().toLowerCase().startsWith(mask);
+            }
+        };
+
+        completionView = (ContactsCompletionView)view.findViewById(R.id.searchView);
+        completionView.setAdapter(adapter);
+        completionView.setTokenListener(this);
+        completionView.setTokenClickStyle(TokenCompleteTextView.TokenClickStyle.Select);
+
+
+        if (savedInstanceState == null) {
+            completionView.setPrefix("To: ");
+            completionView.addObject(people[0]);
+            completionView.addObject(people[1]);
+        }
+
+
+
 
         //Load the raw JSON as a string
         String raw_jason = loadJSONFromAsset();
@@ -128,6 +189,14 @@ public class InterestsDialogFragment extends DialogFragment {
     }
     return json;
 
+    }
+
+    @Override
+    public void onTokenAdded(Object token) {
+    }
+
+    @Override
+    public void onTokenRemoved(Object token) {
     }
 
 }
