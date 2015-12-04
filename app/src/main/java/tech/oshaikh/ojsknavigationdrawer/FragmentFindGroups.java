@@ -11,8 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
-import android.view.inputmethod.InputMethodManager;
-import android.app.Activity;
 
 import java.util.ArrayList;
 
@@ -31,7 +29,6 @@ public class FragmentFindGroups extends Fragment
     private AutoCompleteTextView categoryText;
     private ProgressBar searchProgress;
     private String category = "";
-    private StandardUtilities utilRef;
     private Context _context;
 
 
@@ -79,8 +76,7 @@ public class FragmentFindGroups extends Fragment
 
         listAdapter = new MeetupListItemAdapter(meetupList, urlList,this, _context);
         listView.setAdapter(listAdapter);
-        utilRef = new StandardUtilities();
-        utilRef.showSoftKeyboard(this.getActivity());
+        StandardUtilities.showSoftKeyboard(this.getActivity());
 
     }
 
@@ -110,7 +106,7 @@ public class FragmentFindGroups extends Fragment
     public void finishedParsingResults() {
         searchProgress.setVisibility(View.GONE);
         listAdapter.notifyDataSetChanged();
-        utilRef.hideSoftKeyboard(this.getActivity());
+        StandardUtilities.hideSoftKeyboard(this.getActivity());
     }
 
     @Override

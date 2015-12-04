@@ -25,7 +25,6 @@ public class FragmentLearn extends Fragment implements LearnListItemAdapter.List
     private RecyclerView.Adapter listAdapter;
     private AutoCompleteTextView categoryText;
     private ProgressBar searchProgress;
-    StandardUtilities utilRef;
     private String category = "";
 
     private Context _context;
@@ -73,8 +72,7 @@ public class FragmentLearn extends Fragment implements LearnListItemAdapter.List
 
         listAdapter = new LearnListItemAdapter(tutorialList, urlList, this, _context);
         listView.setAdapter(listAdapter);
-        utilRef = new StandardUtilities();
-        utilRef.showSoftKeyboard(this.getActivity());
+        StandardUtilities.showSoftKeyboard(this.getActivity());
     }
 
     public void populateMenuList() {
@@ -102,7 +100,7 @@ public class FragmentLearn extends Fragment implements LearnListItemAdapter.List
 
         searchProgress.setVisibility(View.GONE);
         listAdapter.notifyDataSetChanged();
-        utilRef.hideSoftKeyboard(this.getActivity());
+        StandardUtilities.hideSoftKeyboard(this.getActivity());
     }
 
     @Override

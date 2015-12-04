@@ -11,7 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
+import android.util.Log;
 
 import java.util.List;
 
@@ -28,16 +30,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+        drawer.setDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                hideKeyboard();
+            }
+            @Override
+            public void onDrawerClosed(View drawerView) {
+            }
+            @Override
+            public void onDrawerStateChanged(int newState) {
+            }
+        });
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
+
 
 
     @Override
@@ -73,8 +91,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -85,7 +101,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             DialogFragment newFragment = new InterestsDialogFragment();
             newFragment.show(getSupportFragmentManager(), "whattt");
-
 
         } else if (id == R.id.nav_information) {
             // Begin the transaction
@@ -117,9 +132,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast.makeText(getApplicationContext(), "Learn!!", Toast.LENGTH_LONG).show();
         }
 
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //Utilities
+    private void hideKeyboard(){
+        Log.d("Should hide keyboard", TAG);
+        StandardUtilities.hideSoftKeyboard(this);
     }
 }
