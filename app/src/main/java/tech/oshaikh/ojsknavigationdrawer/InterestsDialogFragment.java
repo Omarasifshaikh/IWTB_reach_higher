@@ -1,6 +1,5 @@
 package tech.oshaikh.ojsknavigationdrawer;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -9,20 +8,15 @@ import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.TextView;
 
-import com.tokenautocomplete.FilteredArrayAdapter;
 import com.tokenautocomplete.TokenCompleteTextView;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import me.gujun.android.taggroup.TagGroup;
 import tech.oshaikh.ojsknavigationdrawer.model.Topic;
 
 /**
@@ -33,9 +27,9 @@ public class InterestsDialogFragment extends DialogFragment implements TokenComp
     private static final String TAG = "Interests Dialog";
     private AutoCompleteTextView mAutocompleteView;
 
-    ContactsCompletionView completionView;
-    Person[] people;
-    ArrayAdapter<Person> adapter;
+    TopicsCompletionView completionView;
+    Topic[] topics;
+    ArrayAdapter<Topic> adapter;
 
     static InterestsDialogFragment newInstance() {
         return new InterestsDialogFragment();
@@ -57,56 +51,8 @@ public class InterestsDialogFragment extends DialogFragment implements TokenComp
         builder.setTitle("Select Interests");
 
 
-        mAutocompleteView = (AutoCompleteTextView)
-                view.findViewById(R.id.autocomplete_interests);
-
-        TagGroup mTagGroup = (TagGroup) view.findViewById(R.id.tag_group);
-        mTagGroup.setTags(new String[]{"Tag1", "Tag2", "Tag3"});
-
-
-        people = new Person[]{
-                new Person("Marshall Weir", "marshall@example.com"),
-                new Person("Margaret Smith", "margaret@example.com"),
-                new Person("Max Jordan", "max@example.com"),
-                new Person("Meg Peterson", "meg@example.com"),
-                new Person("Amanda Johnson", "amanda@example.com"),
-                new Person("Terry Anderson", "terry@example.com")
-        };
-        adapter = new FilteredArrayAdapter<Person>(this.getContext(), R.layout.person_layout, people) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                if (convertView == null) {
-
-                    LayoutInflater l = (LayoutInflater)getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-                    convertView = l.inflate(R.layout.person_layout, parent, false);
-                }
-
-                Person p = getItem(position);
-                ((TextView)convertView.findViewById(R.id.name)).setText(p.getName());
-                ((TextView)convertView.findViewById(R.id.email)).setText(p.getEmail());
-
-                return convertView;
-            }
-
-            @Override
-            protected boolean keepObject(Person person, String mask) {
-                mask = mask.toLowerCase();
-                return person.getName().toLowerCase().startsWith(mask) || person.getEmail().toLowerCase().startsWith(mask);
-            }
-        };
-
-        completionView = (ContactsCompletionView)view.findViewById(R.id.searchView);
-        completionView.setAdapter(adapter);
-        completionView.setTokenListener(this);
-        completionView.setTokenClickStyle(TokenCompleteTextView.TokenClickStyle.Select);
-
-
-        if (savedInstanceState == null) {
-            completionView.setPrefix("To: ");
-            completionView.addObject(people[0]);
-            completionView.addObject(people[1]);
-        }
-
+        //mAutocompleteView = (AutoCompleteTextView)
+        //      view.findViewById(R.id.autocomplete_interests);
 
 
 
@@ -122,6 +68,10 @@ public class InterestsDialogFragment extends DialogFragment implements TokenComp
         Log.d(TAG,topicList.get(3830).toString());
 
 
+        ArrayAdapter<Topic> adapter = new ArrayAdapter<>(getContext(),
+                      android.R.layout.simple_dropdown_item_1line, topicList);
+
+        /*
         //Build a string array of just the names
         String[] arrayTopicNames = new String[topicList.size()];
         int index = 0;
@@ -129,13 +79,15 @@ public class InterestsDialogFragment extends DialogFragment implements TokenComp
             arrayTopicNames[index] = topicList.get(index).getName();
             index++;
         }
-        Log.d(TAG,"sorted the list");
-
+        */
 
         //create a String adapter to suggest the complete form
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
-                android.R.layout.simple_dropdown_item_1line, arrayTopicNames);
-        Log.d(TAG,"Setting Adapter");
+        //ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(),
+          //      android.R.layout.simple_dropdown_item_1line, arrayTopicNames);
+
+
+
+/*
         mAutocompleteView.setAdapter(adapter);
         // Set up the 'clear text' button that clears the text in the autocomplete view
         Button clearButton = (Button) view.findViewById(R.id.button_clear);
@@ -146,7 +98,57 @@ public class InterestsDialogFragment extends DialogFragment implements TokenComp
             }
         });
 
+*/
+    /*
+        topics = new Topic[]{
+                new Topic(0, "testTopic1"),
+                new Topic(1, "testTopic2"),
+                new Topic(2, "testTopic3"),
+                new Topic(3, "testTopic4"),
+                new Topic(4, "testTopic5"),
+                new Topic(5, "testTopic6")
+        };
+        */
+        //adapter = new ArrayAdapter<Topic>(this.getContext(), android.R.layout.simple_dropdown_item_1line, topics);
+        /*
+        adapter = new FilteredArrayAdapter<Topic>(this.getContext(), R.layout.topic_layout, topics) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                if (convertView == null) {
 
+                    LayoutInflater l = (LayoutInflater)getContext().getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+                    convertView = l.inflate(R.layout.topic_layout, parent, false);
+                }
+
+                Topic t = getItem(position);
+                ((TextView)convertView.findViewById(R.id.name)).setText(t.getId());
+                ((TextView)convertView.findViewById(R.id.email)).setText(t.getName());
+
+                return convertView;
+            }
+
+            @Override
+            protected boolean keepObject(Topic t, String mask) {
+                mask = mask.toLowerCase();
+                return t.getId().toLowerCase().startsWith(mask) || t.getName().toLowerCase().startsWith(mask);
+            }
+        };
+        */
+
+        completionView = (TopicsCompletionView)view.findViewById(R.id.searchView);
+        completionView.setAdapter(adapter);
+        completionView.setTokenListener(this);
+        completionView.setTokenClickStyle(TokenCompleteTextView.TokenClickStyle.Select);
+
+
+        if (savedInstanceState == null) {
+            //TODO - load stored interests here
+            //completionView.setPrefix("Interests: ");
+            /*
+            completionView.addObject(topics[0]);
+            completionView.addObject(topics[1]);
+            */
+        }
 
 
 

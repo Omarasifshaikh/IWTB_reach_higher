@@ -5,12 +5,6 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-/**
- * Created by mgod on 5/27/15.
- *
- * Simple custom view example to show how to get selected events from the token
- * view. See ContactsCompletionView and contact_token.xml for usage
- */
 public class TokenLayout extends LinearLayout {
 
     public TokenLayout(Context context) {

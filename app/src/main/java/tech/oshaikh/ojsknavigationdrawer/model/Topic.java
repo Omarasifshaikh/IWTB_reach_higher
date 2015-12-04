@@ -1,11 +1,21 @@
 package tech.oshaikh.ojsknavigationdrawer.model;
 
+import java.io.Serializable;
+
 /**
  * Created by omar on 11/21/15.
  */
-public class Topic {
+public class Topic implements Serializable{
     private int id;
     private String name;
+
+    public Topic() {
+    }
+
+    public Topic(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public int getId() {
         return id;
@@ -24,10 +34,15 @@ public class Topic {
     }
 
     @Override
+    public String toString() { return name; }
+    /*
+    @Override
     public String toString() {
         return "Topic{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
     }
+    */
+
 }

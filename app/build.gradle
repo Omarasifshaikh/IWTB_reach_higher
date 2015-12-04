@@ -33,7 +33,6 @@ dependencies {
     compile 'net.smartam.leeloo:oauth2-common:0.1'
     compile 'net.smartam.leeloo:oauth2-client:0.1'
     compile 'com.android.support:recyclerview-v7:+'
-    compile 'me.gujun.android.taggroup:library:1.4@aar'
     compile "com.splitwise:tokenautocomplete:2.0.2@aar"
 
 }
