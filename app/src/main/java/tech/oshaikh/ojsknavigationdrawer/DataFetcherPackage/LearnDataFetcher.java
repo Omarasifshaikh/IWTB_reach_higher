@@ -11,9 +11,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-/**
- * Created by Jason Burmark on 11/24/15.
- */
 public class LearnDataFetcher extends DataFetcher {
 
     private int responseCode = 0;

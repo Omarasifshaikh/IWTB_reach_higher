@@ -27,12 +27,13 @@ import tech.oshaikh.ojsknavigationdrawer.model.Topic;
  * Created by omar on 11/29/15.
  */
 public class InterestsDialogFragment extends DialogFragment implements TokenCompleteTextView.TokenListener {
-    public static final String PREFS_NAME = "MyPrefsFile";
+
     private List<Topic> topicList;
     private static final String TAG = "Interests Dialog";
     private AutoCompleteTextView mAutocompleteView;
     //Set<String> selectedTopics = new HashSet<String>(Arrays.asList("xxx", "vvv"));
     Set<String> selectedTopics = new HashSet<String>();
+    public static final String PREFS_NAME = "MyPrefsFile";
 
     TopicsCompletionView completionView;
     Topic[] topics;

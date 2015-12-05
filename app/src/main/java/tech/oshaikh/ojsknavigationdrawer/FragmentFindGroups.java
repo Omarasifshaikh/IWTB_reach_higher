@@ -1,6 +1,7 @@
 package tech.oshaikh.ojsknavigationdrawer;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +13,12 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import tech.oshaikh.ojsknavigationdrawer.DataFetcherPackage.*;
 import tech.oshaikh.ojsknavigationdrawer.ListPackage.ListAdapter;
@@ -30,6 +36,9 @@ public class FragmentFindGroups extends Fragment
     private ProgressBar searchProgress;
     private String category = "";
     private Context _context;
+    private String query;
+    public static final String PREFS_NAME = "MyPrefsFile";
+    Set<String> selectedTopics = new HashSet<String>();
 
 
     public FragmentFindGroups() {
@@ -61,7 +70,7 @@ public class FragmentFindGroups extends Fragment
         listView.setHasFixedSize(true);
         //Sets the view vertically
         listView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
+/*
         categoryText = (AutoCompleteTextView) view.findViewById(R.id.category_text);
         categoryText.setOnClickListener(new View.OnClickListener() {
                                             @Override
@@ -69,18 +78,39 @@ public class FragmentFindGroups extends Fragment
                                                 populateMenuList();
                                             }
                                         }
-        );
+        );*/
+        SharedPreferences settings = this.getContext().getSharedPreferences(PREFS_NAME, 0);
+        selectedTopics = settings.getStringSet("topicsSet",null);
+
+        //PRINT SET DEBUGGGG
+        for (Iterator<String> it = selectedTopics.iterator(); it.hasNext(); ) {
+            String f = it.next();
+
+
+            category = category + " " + f;
+            Log.d("SET",f);
+            Log.d("category is now: ",category);
+        }
+
+        try {
+            query = URLEncoder.encode(category, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        Log.d("the encoded string", query);
 
         searchProgress = (ProgressBar) view.findViewById(R.id.searchProgress);
         searchProgress.setVisibility(View.GONE);
 
         listAdapter = new MeetupListItemAdapter(meetupList, urlList,this, _context);
         listView.setAdapter(listAdapter);
+        populateMenuList();
         StandardUtilities.showSoftKeyboard(this.getActivity());
 
     }
 
     public void populateMenuList() {
+        /*
         //Querying meet up
         String prevString = category;
         category = categoryText.getText().toString();
@@ -88,11 +118,11 @@ public class FragmentFindGroups extends Fragment
         //If its nothing or the same topic, dont do anything
         if (category.length() == 0 || prevString.equals(category))
             return;
-
+        */
         searchProgress.setVisibility(View.VISIBLE);
         meetupList.clear();
         urlList.clear();
-        MeetupDataFetcher md = new MeetupDataFetcher(meetupList, urlList, this, category);
+        MeetupDataFetcher md = new MeetupDataFetcher(meetupList, urlList, this, query);
         md.execute();
     }
     @Override

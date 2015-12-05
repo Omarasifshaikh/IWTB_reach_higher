@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_interests"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_interestsicon"
             android:title="Interests"
             android:enabled="true"/>
         <!--
@@ -15,11 +15,11 @@
             -->
         <item
             android:id="@+id/nav_do"
-            android:icon="@drawable/ic_menu_slideshow"
+            android:icon="@drawable/ic_communityicon"
             android:title="Find things to Do" />
         <item
             android:id="@+id/nav_learn"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_learnicon"
             android:title="Learn" />
     </group>
     <!--

@@ -21,7 +21,7 @@ public class LearnDataFetcherSet extends DataFetcherSet {
     private ArrayList<String> listOfUrl;
     private Set<String> categories;
 
-    private String requestURL = "https://api.coursera.org/api/courses.v1?q=search&query=";
+    private String requestURL = "bn";
 
     public LearnDataFetcherSet(ArrayList<String> listOfNames, ArrayList<String> listOfUrl,
                                QueryDataInterface ref, Set<String> categories) {
