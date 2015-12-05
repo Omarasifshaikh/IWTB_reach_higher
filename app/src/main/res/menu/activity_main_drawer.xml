@@ -5,11 +5,14 @@
         <item
             android:id="@+id/nav_interests"
             android:icon="@drawable/ic_menu_camera"
-            android:title="Interests" />
+            android:title="Interests"
+            android:enabled="true"/>
+        <!--
         <item
             android:id="@+id/nav_information"
             android:icon="@drawable/ic_action_action_class"
             android:title="Information" />
+            -->
         <item
             android:id="@+id/nav_do"
             android:icon="@drawable/ic_menu_slideshow"

@@ -1,5 +1,6 @@
 package tech.oshaikh.ojsknavigationdrawer;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.DialogFragment;
@@ -9,20 +10,25 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import android.util.Log;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import tech.oshaikh.ojsknavigationdrawer.model.Topic;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    public static final String PREFS_NAME = "MyPrefsFile";
 
     private List<Topic> topicList;
     private static final String TAG = "Career Main Activity";
+    //Set<String> selectedTopics = new HashSet<String>(Arrays.asList("a", "b"));
+    Set<String> selectedTopics = new HashSet<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,9 +50,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onDrawerOpened(View drawerView) {
                 hideKeyboard();
             }
+
             @Override
             public void onDrawerClosed(View drawerView) {
             }
+
             @Override
             public void onDrawerStateChanged(int newState) {
             }
@@ -54,6 +62,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+/*
+        SharedPreferences pref = this.getSharedPreferences("careerApp", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putStringSet("topicsSet", selectedTopics);
+        editor.commit();
+        */
+
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putStringSet("topicsSet",selectedTopics);
+        //editor.putBoolean("silentMode", mSilentMode);
+
+        // Commit the edits!
+        editor.commit();
+
     }
 
 
@@ -102,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             DialogFragment newFragment = new InterestsDialogFragment();
             newFragment.show(getSupportFragmentManager(), "whattt");
 
-        } else if (id == R.id.nav_information) {
+        } /*else if (id == R.id.nav_information) {
             // Begin the transaction
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             // Replace the contents of the container with the new fragment
@@ -111,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // Complete the changes added above
             ft.commit();
             Toast.makeText(getApplicationContext(), "Information", Toast.LENGTH_LONG).show();
-        } else if (id == R.id.nav_do) {
+        } */else if (id == R.id.nav_do) {
             // Begin the transaction
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             // Replace the contents of the container with the new fragment

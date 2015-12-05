@@ -2,6 +2,7 @@ package tech.oshaikh.ojsknavigationdrawer;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -15,7 +16,10 @@ import com.tokenautocomplete.TokenCompleteTextView;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import tech.oshaikh.ojsknavigationdrawer.model.Topic;
 
@@ -23,9 +27,12 @@ import tech.oshaikh.ojsknavigationdrawer.model.Topic;
  * Created by omar on 11/29/15.
  */
 public class InterestsDialogFragment extends DialogFragment implements TokenCompleteTextView.TokenListener {
+    public static final String PREFS_NAME = "MyPrefsFile";
     private List<Topic> topicList;
     private static final String TAG = "Interests Dialog";
     private AutoCompleteTextView mAutocompleteView;
+    //Set<String> selectedTopics = new HashSet<String>(Arrays.asList("xxx", "vvv"));
+    Set<String> selectedTopics = new HashSet<String>();
 
     TopicsCompletionView completionView;
     Topic[] topics;
@@ -141,6 +148,37 @@ public class InterestsDialogFragment extends DialogFragment implements TokenComp
         completionView.setTokenClickStyle(TokenCompleteTextView.TokenClickStyle.Select);
 
 
+
+
+        SharedPreferences settings = this.getContext().getSharedPreferences(PREFS_NAME, 0);
+        //boolean silent = settings.getBoolean("silentMode", false);
+        //this.getContext().setSilent(silent);
+
+
+        //SharedPreferences pref = this.getContext().getSharedPreferences("careerApp", Context.MODE_PRIVATE);
+        selectedTopics = settings.getStringSet("topicsSet",null);
+
+
+
+/*
+        //Abhijits <code></code>
+        SharedPreferences mValuePrefs = getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = mValuePrefs.edit();
+        editor.clear();
+        editor.putInt("seekbar", 80); // dont hardcode
+        editor.apply();
+
+*/
+
+        //PreferenceManager.getDefaultSharedPreferences(this.getContext()).getStringSet("topicsSet",selectedTopics);
+
+
+        //PRINT SET DEBUGGGG
+        for (Iterator<String> it = selectedTopics.iterator(); it.hasNext(); ) {
+            String f = it.next();
+            Log.d("SET",f);
+        }
+
         if (savedInstanceState == null) {
             //TODO - load stored interests here
             //completionView.setPrefix("Interests: ");
@@ -148,6 +186,24 @@ public class InterestsDialogFragment extends DialogFragment implements TokenComp
             completionView.addObject(topics[0]);
             completionView.addObject(topics[1]);
             */
+            //completionView.addObject(new Topic(0,selectedTopics.));
+
+            //PRINT SET DEBUGGGG
+            for (Iterator<String> it = selectedTopics.iterator(); it.hasNext(); ) {
+                String f = it.next();
+                Log.d("SET",f);
+            }
+
+            for (Iterator<String> it = selectedTopics.iterator(); it.hasNext(); ) {
+                String f = it.next();
+                /*
+                if (f.equals(new Foo("Hello")))
+                    System.out.println("foo found");
+                    */
+                completionView.addObject(new Topic(0,f));
+
+            }
+
         }
 
 
@@ -156,6 +212,9 @@ public class InterestsDialogFragment extends DialogFragment implements TokenComp
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button
+
+
+
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -195,10 +254,43 @@ public class InterestsDialogFragment extends DialogFragment implements TokenComp
 
     @Override
     public void onTokenAdded(Object token) {
+
+        //TODO  -  add string to shared prefernces here...
+        Log.d("general", "Token Added");
+        //PRINT SET DEBUGGGG
+        for (Iterator<String> it = selectedTopics.iterator(); it.hasNext(); ) {
+            String f = it.next();
+            Log.d("SET",f);
+        }
+
+        selectedTopics.add(token.toString());
+
+        /*
+        SharedPreferences pref = this.getContext().getSharedPreferences("careerApp", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putStringSet("topicsSet", selectedTopics);
+        editor.commit();
+*/
+
+
+
+        //PreferenceManager.getDefaultSharedPreferences(this.getContext()).edit().putString("MYLABEL", "myStringToSave").commit();
+
+        //PreferenceManager.getDefaultSharedPreferences(this.getContext()).edit().putStringSet("topicsSet",selectedTopics).apply();
     }
 
     @Override
     public void onTokenRemoved(Object token) {
+
+        SharedPreferences settings = this.getContext().getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        selectedTopics.remove(token.toString());
+        editor.putStringSet("topicsSet",null);
+        editor.putStringSet("topicsSet",selectedTopics);
+        //editor.putBoolean("silentMode", mSilentMode);
+
+        // Commit the edits!
+        editor.apply();
     }
 
 }
