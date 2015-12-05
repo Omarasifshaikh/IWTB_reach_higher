@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.HashSet;
 import java.util.List;
@@ -34,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("IWTB Reach Higher");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -76,6 +76,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         // Commit the edits!
         editor.commit();
+
+        // Begin the transaction
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        // Replace the contents of the container with the new fragment
+        ft.replace(R.id.frame_container, new DefaultImageFragment());
+        // or ft.add(R.id.your_placeholder, new FooFragment());
+        // Complete the changes added above
+        ft.commit();
+
+
+        DialogFragment newFragment = new InterestsDialogFragment();
+        newFragment.show(getSupportFragmentManager(), "whattt");
 
     }
 
@@ -143,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // Complete the changes added above
             ft.commit();
 
-            Toast.makeText(getApplicationContext(), "Things to do", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Things to do", Toast.LENGTH_LONG).show();
         } else if (id == R.id.nav_learn) {
             // Begin the transaction
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -152,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             // or ft.add(R.id.your_placeholder, new FooFragment());
             // Complete the changes added above
             ft.commit();
-            Toast.makeText(getApplicationContext(), "Learn!!", Toast.LENGTH_LONG).show();
+            //Toast.makeText(getApplicationContext(), "Learn!!", Toast.LENGTH_LONG).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
