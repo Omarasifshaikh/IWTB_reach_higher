@@ -18,6 +18,7 @@ public class TokenLayout extends LinearLayout {
 
     @Override
     public void setSelected(boolean selected) {
+        //TODO - Fix close_x drawable issue
         super.setSelected(selected);
 
         TextView v = (TextView)findViewById(R.id.name);

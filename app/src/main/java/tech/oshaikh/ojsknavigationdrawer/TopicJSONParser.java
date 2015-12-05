@@ -14,6 +14,7 @@ import tech.oshaikh.ojsknavigationdrawer.model.Topic;
  * Created by omar on 11/21/15.
  */
 public class TopicJSONParser {
+    //TODO - Build the newer gson parser
     private static final String TAG = "appstart";
     public static List<Topic> parseFile(String content){
         try{
